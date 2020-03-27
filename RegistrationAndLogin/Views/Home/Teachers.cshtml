@@ -1,0 +1,74 @@
+﻿@model IEnumerable<RegistrationAndLogin.Models.User>
+
+@{
+    ViewBag.Title = "Teachers";
+}
+
+<h2>Teachers</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsEmailVerified)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Role)
+        </th>
+        <th></th>
+    </tr>
+            <tr>
+                <td>
+                 
+                    <h6>Murad</h6>
+                </td>
+                <td>
+  
+                    <h6>Shahsuvarov</h6>
+                </td>
+                <td>
+                   
+                    <h6>muradshahsuvarov@gmail.com</h6>
+                </td>
+                <td>
+                    <h6>1998/10/22</h6>
+                </td>
+                <td>
+               
+                    <h6>weREgse43#f3</h6>
+                </td>
+                <td>
+                 
+                    <h6>Verified</h6>
+                </td>
+                <td>
+                    <h6>Teacher</h6>
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit") |
+                    @Html.ActionLink("Details", "Details") |
+                    @Html.ActionLink("Delete", "Delete")
+                </td>
+            </tr>
+        }
+
+    }
+
+</table>
