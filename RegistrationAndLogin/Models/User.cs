@@ -11,9 +11,15 @@ namespace RegistrationAndLogin.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity;
+
+    [Table("Users")]
     public partial class User
     {
+        [Key, Column(Order = 1)]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -23,5 +29,14 @@ namespace RegistrationAndLogin.Models
         public bool IsEmailVerified { get; set; }
         public System.Guid ActivationCode { get; set; }
         public string Role { get; set; }
+    }
+
+    public class UserDBContext : DbContext
+    {
+         public UserDBContext() : base("MyDatabaseEntities1")
+        {
+
+        }
+        public DbSet<User> Users { get; set; }
     }
 }

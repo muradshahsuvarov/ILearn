@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace RegistrationAndLogin.Controllers
 {
-    
+
     public class HomeController : Controller
     {
         // GET: Home
@@ -18,12 +18,6 @@ namespace RegistrationAndLogin.Controllers
 
         [HttpGet]
         public ActionResult About()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult Teachers()
         {
             return View();
         }
@@ -48,7 +42,7 @@ namespace RegistrationAndLogin.Controllers
             return View();
         }
 
-        
+
 
 
     }

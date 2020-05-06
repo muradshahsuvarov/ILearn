@@ -13,6 +13,83 @@ namespace RegistrationAndLogin.Controllers
     public class UserController : Controller
     {
 
+        private UserDBContext db = new UserDBContext();
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult ListOfUsers()
+        {
+            var users = from e in db.Users
+                        orderby e.EmailID
+                        select e;
+            return View(users);
+        }
+
+        [HttpGet]
+        public ActionResult Teachers()
+        {
+
+            var teachers = from e in db.Users
+                        where e.Role == "Tutor"
+                        select e;
+            return View(teachers);
+        }
+
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(User usr)
+        {
+            try
+            {
+                db.Users.Add(usr);
+                db.SaveChanges();
+                return RedirectToAction("ListOfUsers");
+            }
+            catch (Exception)
+            {
+
+                return View();
+            }
+        }
+
+
+        // GET: User/Edit/5
+        [HttpGet]
+        public ActionResult Edit()
+        {
+            string emailID = User.Identity.Name;
+
+
+            var user = (from e in db.Users
+                        where e.EmailID == emailID
+                        select e).Single();
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(int id, FormCollection collection)
+        {
+            try
+            {
+                var user = db.Users.Single(m => m.UserID == id);
+                if(TryUpdateModel(user))
+                {
+                    db.SaveChanges();
+                    return RedirectToAction("ListOfUsers");
+                }
+                return View(user);
+            }
+            catch (Exception)
+            {
+                return View();
+            }
+        }
 
        //Registration Action
         [HttpGet]
@@ -115,7 +192,14 @@ namespace RegistrationAndLogin.Controllers
         [Authorize]
         public ActionResult MyProfile()
         {
-            return View();
+            string emailID = User.Identity.Name;
+           
+
+            var user = (from e in db.Users
+                        where e.EmailID == emailID
+                        select e).Single();
+
+            return View(user);
         }
 
         //Login POST

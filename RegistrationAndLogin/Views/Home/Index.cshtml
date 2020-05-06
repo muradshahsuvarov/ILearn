@@ -2,11 +2,23 @@
     ViewBag.Title = "Home";
 }
 <h2>Welcome to ILearn</h2>
-Welcome @HttpContext.Current.User.Identity.Name
+
+<body  background="~/Image/onlineschool.jpg" >
+</body>
+
+
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("Logout","User", FormMethod.Post, new { id="logoutForm"}))
+    <p>Welcome @HttpContext.Current.User.Identity.Name</p>
+    using (Html.BeginForm("Logout", "User", FormMethod.Post, new { id = "logoutForm" }))
     {
         <a href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
     }
+}
+else
+{
+    <div>
+    @Html.ActionLink("Register Now", "Registration", "User")
+    </div>
+    <p>@Html.ActionLink("Login", "Login","User")</p>
 }

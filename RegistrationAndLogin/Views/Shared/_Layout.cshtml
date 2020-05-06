@@ -23,11 +23,33 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Teachers", "Teachers", "Home")</li>
-                    <li>@Html.ActionLink("Services", "Services", "Home")</li>
+                    <li>@Html.ActionLink("Teachers", "Teachers", "User")</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Services", "Services", "Home")</li>
+                    }
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("myApplications", "myApplications", "Home")</li>
-                    <li>@Html.ActionLink("MyProfile", "MyProfile", "User")</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Applications", "myApplications", "Home")</li>
+                    }
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Applications", "myCalendar", "Calendar")</li>
+                    }
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Profile", "MyProfile", "User")</li>
+                    }
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Users", "ListOfUsers", "User")</li>
+                    }
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Schedule", "Index", "Calendar")</li>
+                    }
+
 
                 </ul>
             </div>
@@ -36,10 +58,20 @@
 
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - ILearn</p>
-        </footer>
+
+        <div style="bottom:0;position: fixed; width:100%;">
+            <footer>
+                <div class="navbar navbar-inverse navbar-fixed-bottom">
+                    <div class="container">
+                        <div class="navbar-fixed-bottom">
+                            <p style="color: steelblue;">&nbsp;&nbsp; &copy; @DateTime.Now.Year - ILearn</palign="right">
+                                
+</div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        
     </div>
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>

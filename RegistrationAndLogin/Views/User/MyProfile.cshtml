@@ -1,13 +1,11 @@
 ﻿@model RegistrationAndLogin.Models.User
 
 @{
-    ViewBag.Title = "MyProfile";
+    ViewBag.Title = "Profile";
 }
 
-<h2>MyProfile</h2>
-
 <div>
-    <h4>User</h4>
+    <h4>Profile Details</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -43,32 +41,9 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsEmailVerified)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsEmailVerified)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ActivationCode)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ActivationCode)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Role)
         </dt>
+
         <dd>
             @Html.DisplayFor(model => model.Role)
         </dd>
@@ -76,6 +51,14 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit") |
+
+
+    @using (Html.BeginForm("Logout", "User", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        <a href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
+    }
+
+
+    @Html.ActionLink("Edit", "Edit", new { id = Model.UserID }) |
     @Html.ActionLink("Back to List", "Index")
-</p>
+    </p>
