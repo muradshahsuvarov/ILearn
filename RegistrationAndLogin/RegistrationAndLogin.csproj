@@ -461,6 +461,7 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Teachers.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
+    <Content Include="Views\User\GetDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

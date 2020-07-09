@@ -39,7 +39,7 @@
     </td>
     <td>
 
-        @Html.ActionLink("Details", "Details", new { id = item.UserID }) |
+        @Html.ActionLink("Details", "GetDetails", "User" , new { id = item.UserID }, null) |
         @Html.ActionLink("Scedule", "Schedule", "User")
     </td>
 </tr>

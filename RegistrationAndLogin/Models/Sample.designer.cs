@@ -20,9 +20,9 @@ namespace RegistrationAndLogin.Models
 	using System.Linq.Expressions;
 	using System.ComponentModel;
 	using System;
-
-
-    [global::System.Data.Linq.Mapping.DatabaseAttribute(Name="MyDatabase")]
+	
+	
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="MyDatabase")]
 	public partial class SampleDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -80,7 +80,7 @@ namespace RegistrationAndLogin.Models
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _Id;
+		private int _id;
 		
 		private string _text;
 		
@@ -92,8 +92,8 @@ namespace RegistrationAndLogin.Models
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
     partial void OntextChanging(string value);
     partial void OntextChanged();
     partial void Onstart_dateChanging(System.DateTime value);
@@ -107,22 +107,22 @@ namespace RegistrationAndLogin.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
 		{
 			get
 			{
-				return this._Id;
+				return this._id;
 			}
 			set
 			{
-				if ((this._Id != value))
+				if ((this._id != value))
 				{
-					this.OnIdChanging(value);
+					this.OnidChanging(value);
 					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
 				}
 			}
 		}

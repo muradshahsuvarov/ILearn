@@ -35,10 +35,6 @@
                     }
                     @if (Request.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Applications", "myCalendar", "Calendar")</li>
-                    }
-                    @if (Request.IsAuthenticated)
-                    {
                         <li>@Html.ActionLink("Profile", "MyProfile", "User")</li>
                     }
                     @if (Request.IsAuthenticated)

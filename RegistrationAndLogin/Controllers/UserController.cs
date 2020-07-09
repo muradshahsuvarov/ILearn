@@ -141,7 +141,7 @@ namespace RegistrationAndLogin.Controllers
                     //Send Email to User
                     SendVerificationLinkEmail(user.EmailID, user.ActivationCode.ToString());
                     message = "Registration successfully done. Account activation link " + 
-                        " has been sent to your email id:" + user.EmailID;
+                        " has been sent to your email: " + user.EmailID;
                     Status = true;
                 }
                 #endregion
@@ -197,6 +197,19 @@ namespace RegistrationAndLogin.Controllers
 
             var user = (from e in db.Users
                         where e.EmailID == emailID
+                        select e).Single();
+
+            return View(user);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult GetDetails(int id)
+        {
+
+
+            var user = (from e in db.Users
+                        where e.UserID == id
                         select e).Single();
 
             return View(user);
