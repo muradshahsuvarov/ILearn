@@ -12,7 +12,7 @@ namespace RegistrationAndLogin.Controllers
 {
     public class UserController : Controller
     {
-
+        // Is the actual database
         private UserDBContext db = new UserDBContext();
 
         [HttpGet]
@@ -26,6 +26,7 @@ namespace RegistrationAndLogin.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult Teachers()
         {
 
@@ -199,7 +200,21 @@ namespace RegistrationAndLogin.Controllers
                         where e.EmailID == emailID
                         select e).Single();
 
+            // To parse the authenticated user's with his ID
+            /* var userWithId = (from e in db.Users
+                              where e.UserID == user.UserID
+                              select e).Single(); */
+
             return View(user);
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Schedule(int? id)
+        {
+            //TODO: Show the schedule of clicked tutor
+            return View();
         }
 
         [HttpGet]

@@ -6,6 +6,7 @@
       <Column Name="text" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
       <Column Name="start_date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="end_date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="userId" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

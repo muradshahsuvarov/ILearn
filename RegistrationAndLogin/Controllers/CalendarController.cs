@@ -15,9 +15,14 @@ namespace RegistrationAndLogin.Controllers
 {
     public class CalendarController : Controller
     {
+
+        // Is the actual database
+        private UserDBContext db = new UserDBContext();
+
+
         public ActionResult Index()
         {
-            //Being initialized in that way, scheduler will use CalendarController.Data as a the datasource and CalendarController.Save to process changes
+            //Being initialized in that way, scheduler will use CalendarController. Data as a the datasource and CalendarController. Save to process changes
             var scheduler = new DHXScheduler(this);
 
             /*
@@ -43,37 +48,62 @@ namespace RegistrationAndLogin.Controllers
             return View(scheduler);
         }
 
+        // Get authenticated user
+        User getAuthenticatedUser()
+        {
+            string emailID = User.Identity.Name;
+
+            User authenticatedUser = (from e in db.Users
+                                     where e.EmailID == emailID
+                                     select e).Single();
+
+            return authenticatedUser;
+        }
+
+        // Loads data from database
         public ContentResult Data()
         {
-            var data = new SchedulerAjaxData( new SampleDataContext().Events);
+            var authenticatedUser = getAuthenticatedUser();
+            // SampleDataContext is the LINQ converted Event Table's object
+            // To find particular events based on their IDs
+            var data = new SchedulerAjaxData(new SampleDataContext().Events.Where(r => r.userId == authenticatedUser.UserID));
+            //var data = new SchedulerAjaxData( new SampleDataContext().Events);
             return (ContentResult)data;
         }
 
+        
+        // Save Changes
         public ContentResult Save(int? id, FormCollection actionValues)
         {
             var action = new DataAction(actionValues);
-            
+
+            // Parse athenticated user based on its email address
+            var authenticatedUser = getAuthenticatedUser();
+
             try
             {
+                // Enable Save of actual changes
                 var changedEvent = (Event)DHXEventsHelper.Bind(typeof(Event), actionValues);
-                var data = new SampleDataContext();
+                changedEvent.userId = authenticatedUser.UserID; // Bind authenticated user's id to the event
+                var data = new SampleDataContext(); // Database context of the scheduler
      
 
                 switch (action.Type)
                 {
-                    case DataActionTypes.Insert:
+                    
+                    case DataActionTypes.Insert:  // Insert logic is defined here
                         data.Events.InsertOnSubmit(changedEvent);
                         break;
-                    case DataActionTypes.Delete:
+                    case DataActionTypes.Delete:  // Delete logic is defined here
                         changedEvent = data.Events.SingleOrDefault(ev => ev.id == action.SourceId);
                         data.Events.DeleteOnSubmit(changedEvent);
                         break;
-                    default:// "update"                          
-                        var eventToUpdate = data.Events.SingleOrDefault(ev => ev.id == action.SourceId);
+                    default:// "update". Update logic is defined here                      
+                        var eventToUpdate = data.Events.SingleOrDefault(ev => ev.id == action.SourceId); // New changes = Last Added Event
                         DHXEventsHelper.Update(eventToUpdate, changedEvent, new List<string>() { "Id" });
                         break;
                 }
-
+                // Submission of changes
                 data.SubmitChanges();
                 action.TargetId = changedEvent.id;
             }

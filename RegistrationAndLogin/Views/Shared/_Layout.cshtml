@@ -24,12 +24,30 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Teachers", "Teachers", "User")</li>
-                    @if (Request.IsAuthenticated)
+                    @{ 
+
+                        RegistrationAndLogin.Models.UserDBContext db = new RegistrationAndLogin.Models.UserDBContext();
+                        string emailID = User.Identity.Name;
+
+                        var authenticatedUser = new RegistrationAndLogin.Models.User();
+                        try
+                        {
+                           authenticatedUser = (from e in db.Users
+                                                 where e.EmailID == emailID
+                                                 select e).Single();
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("User exited");
+                        }
+                        
+                    }
+                    @if (Request.IsAuthenticated && authenticatedUser.Role == "Tutor")
                     {
                         <li>@Html.ActionLink("Services", "Services", "Home")</li>
                     }
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    @if (Request.IsAuthenticated)
+                    @if (Request.IsAuthenticated && authenticatedUser.Role == "Student")
                     {
                         <li>@Html.ActionLink("Applications", "myApplications", "Home")</li>
                     }
@@ -37,11 +55,11 @@
                     {
                         <li>@Html.ActionLink("Profile", "MyProfile", "User")</li>
                     }
-                    @if (Request.IsAuthenticated)
+                    @if (Request.IsAuthenticated && authenticatedUser.Role == "Tutor")
                     {
                         <li>@Html.ActionLink("Users", "ListOfUsers", "User")</li>
                     }
-                    @if (Request.IsAuthenticated)
+                    @if (Request.IsAuthenticated && authenticatedUser.Role == "Tutor")
                     {
                         <li>@Html.ActionLink("Schedule", "Index", "Calendar")</li>
                     }

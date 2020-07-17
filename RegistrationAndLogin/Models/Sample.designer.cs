@@ -88,6 +88,8 @@ namespace RegistrationAndLogin.Models
 		
 		private System.DateTime _end_date;
 		
+		private System.Nullable<int> _userId;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -100,6 +102,8 @@ namespace RegistrationAndLogin.Models
     partial void Onstart_dateChanged();
     partial void Onend_dateChanging(System.DateTime value);
     partial void Onend_dateChanged();
+    partial void OnuserIdChanging(System.Nullable<int> value);
+    partial void OnuserIdChanged();
     #endregion
 		
 		public Event()
@@ -183,6 +187,26 @@ namespace RegistrationAndLogin.Models
 					this._end_date = value;
 					this.SendPropertyChanged("end_date");
 					this.Onend_dateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userId", DbType="Int")]
+		public System.Nullable<int> userId
+		{
+			get
+			{
+				return this._userId;
+			}
+			set
+			{
+				if ((this._userId != value))
+				{
+					this.OnuserIdChanging(value);
+					this.SendPropertyChanging();
+					this._userId = value;
+					this.SendPropertyChanged("userId");
+					this.OnuserIdChanged();
 				}
 			}
 		}
