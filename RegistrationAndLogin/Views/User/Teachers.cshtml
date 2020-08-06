@@ -40,7 +40,7 @@
     <td>
 
         @Html.ActionLink("Details", "GetDetails", "User" , new { id = item.UserID }, null) |
-        @Html.ActionLink("Scedule", "Schedule", "User")
+        @Html.ActionLink("Schedule", "ListOfEvents", "User" , new { id = item.UserID }, null)
     </td>
 </tr>
 }

@@ -11,16 +11,18 @@ using DHTMLX.Scheduler.Data;
 using DHTMLX.Scheduler.Controls;
 
 using RegistrationAndLogin.Models;
+using System.Diagnostics;
+
 namespace RegistrationAndLogin.Controllers
 {
+    
     public class CalendarController : Controller
     {
 
         // Is the actual database
         private UserDBContext db = new UserDBContext();
 
-
-        public ActionResult Index()
+        public ActionResult Index(int? id, bool? notAuth)
         {
             //Being initialized in that way, scheduler will use CalendarController. Data as a the datasource and CalendarController. Save to process changes
             var scheduler = new DHXScheduler(this);
@@ -60,13 +62,22 @@ namespace RegistrationAndLogin.Controllers
             return authenticatedUser;
         }
 
-        // Loads data from database
+        // Loads data from events
         public ContentResult Data()
         {
-            var authenticatedUser = getAuthenticatedUser();
-            // SampleDataContext is the LINQ converted Event Table's object
-            // To find particular events based on their IDs
-            var data = new SchedulerAjaxData(new SampleDataContext().Events.Where(r => r.userId == authenticatedUser.UserID));
+            User authenticatedUser = new User();
+            SchedulerAjaxData data = new SchedulerAjaxData();
+
+                authenticatedUser = getAuthenticatedUser();
+
+                // SampleDataContext is the LINQ converted Event Table's object
+                // To find particular events based on their IDs
+                data = new SchedulerAjaxData(new SampleDataContext().Events.Where(r => r.userId == authenticatedUser.UserID));
+
+
+
+            
+
             //var data = new SchedulerAjaxData( new SampleDataContext().Events);
             return (ContentResult)data;
         }
@@ -80,11 +91,13 @@ namespace RegistrationAndLogin.Controllers
             // Parse athenticated user based on its email address
             var authenticatedUser = getAuthenticatedUser();
 
+
             try
             {
                 // Enable Save of actual changes
                 var changedEvent = (Event)DHXEventsHelper.Bind(typeof(Event), actionValues);
                 changedEvent.userId = authenticatedUser.UserID; // Bind authenticated user's id to the event
+                changedEvent.status = "AVAILABLE";
                 var data = new SampleDataContext(); // Database context of the scheduler
      
 
@@ -107,8 +120,9 @@ namespace RegistrationAndLogin.Controllers
                 data.SubmitChanges();
                 action.TargetId = changedEvent.id;
             }
-            catch
+            catch(Exception e)
             {
+                Debug.WriteLine($"ERROR: {e}");
                 action.Type = DataActionTypes.Error;
             }
             return (ContentResult)new AjaxSaveResponse(action);

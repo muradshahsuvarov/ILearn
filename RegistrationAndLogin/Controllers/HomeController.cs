@@ -42,8 +42,5 @@ namespace RegistrationAndLogin.Controllers
             return View();
         }
 
-
-
-
     }
 }

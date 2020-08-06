@@ -1,0 +1,45 @@
+﻿@model IEnumerable<RegistrationAndLogin.Models.Event>
+
+@{
+    ViewBag.Title = "Events";
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.text)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.start_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.end_date)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.text)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.start_date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.end_date)
+        </td>
+        <td>
+            @using (Html.BeginForm("Subscribe", "User", FormMethod.Post))
+            {
+                <!-- form goes here -->
+                @Html.Hidden("eventId", item.id)
+                @Html.Hidden("email", User.Identity.Name)
+                @Html.Hidden("returnUrl", this.Request.RawUrl)
+                <input type="submit" value="Subscribe" class="btn btn-success" style="width:200px" />
+            }
+        </td>
+    </tr>
+}
+
+</table>

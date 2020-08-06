@@ -38,5 +38,6 @@ namespace RegistrationAndLogin.Models
 
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Event> Events { get; set; }
     }
 }

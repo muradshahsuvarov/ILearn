@@ -1,0 +1,89 @@
+﻿@model IEnumerable<RegistrationAndLogin.Models.Event>
+
+@{
+    ViewBag.Title = "Events";
+}
+
+@{
+
+    RegistrationAndLogin.Models.UserDBContext db = new RegistrationAndLogin.Models.UserDBContext();
+
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.text)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.start_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.end_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
+        <th>
+            Author Name
+        </th>
+        <th>
+            Author Email
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (item.start_date >= DateTime.Now)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.text)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.start_date)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.end_date)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.status)
+    </td>
+    <td>
+        @{
+            var eventUserName = new RegistrationAndLogin.Models.User();
+            try
+            {
+                eventUserName = (from e in db.Users
+                             where e.UserID == item.userId
+                             select e).Single();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("User exited");
+            }
+        }
+        @eventUserName.FirstName @eventUserName.LastName
+    </td>
+    <td>
+        @{
+            var eventUserEmail = new RegistrationAndLogin.Models.User();
+            try
+            {
+                eventUserEmail = (from e in db.Users
+                             where e.UserID == item.userId
+                             select e).Single();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("User exited");
+            }
+        }
+        @eventUserEmail.EmailID
+    </td>
+</tr>
+        }
+
+    }
+
+</table>

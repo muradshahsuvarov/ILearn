@@ -152,8 +152,10 @@
       <LastGenOutput>MyModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <Content Include="Image\blackbkg.jpg" />
+    <Content Include="Image\img_avatar.png" />
     <Content Include="Image\onlineschool.jpg" />
     <Content Include="Image\onlineschool_home.jpg" />
+    <Content Include="Image\region.jpg" />
     <Content Include="Models\MyModel.edmx.diagram">
       <DependentUpon>MyModel.edmx</DependentUpon>
     </Content>
@@ -462,6 +464,10 @@
     <Content Include="Views\User\Teachers.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
     <Content Include="Views\User\GetDetails.cshtml" />
+    <Content Include="Views\User\ListOfEvents.cshtml" />
+    <Content Include="Views\User\ListOfTutorEvents.cshtml" />
+    <Content Include="Views\User\GetApplications.cshtml" />
+    <Content Include="Views\User\GetTutorDashboard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

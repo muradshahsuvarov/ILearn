@@ -7,6 +7,126 @@
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <style>
+
+
+    /* Navbar container */
+    .ilearn_navbar {
+    overflow: hidden;
+    background-color: #333;
+    font-family: Arial;
+    }
+
+    /* Links inside the navbar */
+    .ilearn_navbar a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    }
+
+    /* The dropdown container */
+    .ilearn_dropdown {
+    float: left;
+    overflow: hidden;
+    }
+
+    /* Dropdown button */
+    .ilearn_dropdown .dropbtn {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit; /* Important for vertical align on mobile phones */
+    margin: 0; /* Important for vertical align on mobile phones */
+    }
+
+    /* Add a red background color to navbar links on hover */
+    .ilearn_navbar a:hover, .ilearn_dropdown:hover .ilearn_dropbtn {
+    background-color: red;
+    }
+
+    /* Dropdown content (hidden by default) */
+    .ilearn_dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    }
+
+    /* Links inside the dropdown */
+    .ilearn_dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    }
+
+    /* Add a grey background color to dropdown links on hover */
+    .ilearn_dropdown-content a:hover {
+    background-color: #ddd;
+    }
+
+    /* Show the dropdown menu on hover */
+    .ilearn_dropdown:hover .ilearn_dropdown-content {
+    display: block;
+    }
+
+   .avatar {
+  vertical-align: middle;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+   * {
+  box-sizing: border-box;
+}
+
+/* Style the search field */
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+/* Style the submit button */
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #0b7dda;
+}
+
+/* Clear floats */
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+    </style>
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -21,10 +141,21 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li>
+                        <!-- Load icon library -->
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                        <!-- The form -->
+                        <form class="example" action="/action_page.php" style="margin-top:10px;max-width:300px;max-height:500px">
+                            <input type="text" placeholder="Search.." name="search2" style="height:30px">
+                            <button type="submit" style="height:30px"><i class="fa fa-search" style="height:20px; position:relative;  top: -10px;"></i></button>
+                        </form>
+                    </li>
+                    
+
+
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Teachers", "Teachers", "User")</li>
-                    @{ 
+                    @{
 
                         RegistrationAndLogin.Models.UserDBContext db = new RegistrationAndLogin.Models.UserDBContext();
                         string emailID = User.Identity.Name;
@@ -32,7 +163,7 @@
                         var authenticatedUser = new RegistrationAndLogin.Models.User();
                         try
                         {
-                           authenticatedUser = (from e in db.Users
+                            authenticatedUser = (from e in db.Users
                                                  where e.EmailID == emailID
                                                  select e).Single();
                         }
@@ -40,39 +171,71 @@
                         {
                             Console.WriteLine("User exited");
                         }
-                        
+
                     }
-                    @if (Request.IsAuthenticated && authenticatedUser.Role == "Tutor")
-                    {
-                        <li>@Html.ActionLink("Services", "Services", "Home")</li>
-                    }
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     @if (Request.IsAuthenticated && authenticatedUser.Role == "Student")
                     {
-                        <li>@Html.ActionLink("Applications", "myApplications", "Home")</li>
+                        <li>@Html.ActionLink("Teachers", "Teachers", "User")</li>
                     }
-                    @if (Request.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("Profile", "MyProfile", "User")</li>
-                    }
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     @if (Request.IsAuthenticated && authenticatedUser.Role == "Tutor")
                     {
                         <li>@Html.ActionLink("Users", "ListOfUsers", "User")</li>
                     }
-                    @if (Request.IsAuthenticated && authenticatedUser.Role == "Tutor")
+
+                    @if (Request.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Schedule", "Index", "Calendar")</li>
+                        <div class="ilearn_navbar" style="width: 120px">
+                            <div class="ilearn_dropdown">
+                                <button class="dropbtn">
+                                    @authenticatedUser.FirstName
+                                    <i class="fa fa-caret-down"></i>
+                                </button>
+                                <div class="ilearn_dropdown-content">
+                                    <li>@Html.ActionLink("Profile", "MyProfile", "User")</li>
+                                    @if (Request.IsAuthenticated && authenticatedUser.Role == "Student")
+                                    {
+                                        <li>@Html.ActionLink("Subjects", "GetApplications", "User")</li>
+                                        <li>@Html.ActionLink("Biography", "Services", "Home")</li>
+                                        <li>@Html.ActionLink("Manage Schedule", "GetSchedule", "User")</li>
+                                        <li>@Html.ActionLink("Activity Log", "GetStudentActivityLog", "User")</li>
+                                        <li>@Html.ActionLink("Settings", "GetStudentSettings", "User")</li>
+                                        <li>@Html.ActionLink("News Feed Preferences", "GetStudentNewsPrefs", "User")</li>
+                                        <li>
+                                            @using (Html.BeginForm("Logout", "User", FormMethod.Post, new { id = "logoutForm" }))
+                                            {
+                                                <a href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
+                                            }
+                                        </li>
+                                    }
+                                    else if (Request.IsAuthenticated && authenticatedUser.Role == "Tutor")
+                                    {
+                                        <li>@Html.ActionLink("Subjects", "GetTutorSubjects", "User")</li>
+                                        <li>@Html.ActionLink("Requests", "ListOfTutorEvents", "User")</li>
+                                        <li>@Html.ActionLink("Manage Schedule", "Index", "Calendar", new { id = authenticatedUser.UserID, notAuth = false }, null)</li>
+                                        <li>@Html.ActionLink("Dashboard", "GetTutorDashboard", "User")</li>
+                                        <li>@Html.ActionLink("Settings", "GetTutorSettings", "User")</li>
+                                        <li>@Html.ActionLink("News Feed Preferences", "GetTutorNewsPrefs", "User")</li>
+                                        <li>
+                                            @using (Html.BeginForm("Logout", "User", FormMethod.Post, new { id = "logoutForm" }))
+                                            {
+                                                <a href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
+                                            }
+                                        </li>
+                                    }
+                                </div>
+                            </div>
+                            <img src="~/Image/img_avatar.png" alt="Avatar" class="avatar" style="margin-top: 12.5px">
+                        </div>
                     }
-
-
                 </ul>
+
             </div>
         </div>
     </div>
 
     <div class="container body-content">
-        @RenderBody()
-
+        @RenderBody() <!-- Body is pasted here -->
         <div style="bottom:0;position: fixed; width:100%;">
             <footer>
                 <div class="navbar navbar-inverse navbar-fixed-bottom">

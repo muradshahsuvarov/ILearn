@@ -89,9 +89,11 @@ namespace RegistrationAndLogin.Models
 		private System.DateTime _end_date;
 		
 		private System.Nullable<int> _userId;
-		
+        private System.String _status;
+        private System.String _subscriberEmail;
+
     #region Extensibility Method Definitions
-    partial void OnLoaded();
+        partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
     partial void OnidChanging(int value);
@@ -210,8 +212,48 @@ namespace RegistrationAndLogin.Models
 				}
 			}
 		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_status", DbType = "NVARCHAR(50) NOT NULL DEFAULT 'AVAILABLE'")]
+        public System.String status
+        {
+            get
+            {
+                return this._status;
+            }
+            set
+            {
+                if ((this._status != value))
+                {
+                    this.OntextChanging(value);
+                    this.SendPropertyChanging();
+                    this._status = value;
+                    this.SendPropertyChanged("status");
+                    this.OnuserIdChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_subscriberEmail", DbType = "NVARCHAR(50)  NULL")]
+        public System.String subscriberEmail
+        {
+            get
+            {
+                return this._subscriberEmail;
+            }
+            set
+            {
+                if ((this._subscriberEmail != value))
+                {
+                    this.OntextChanging(value);
+                    this.SendPropertyChanging();
+                    this._subscriberEmail = value;
+                    this.SendPropertyChanged("subscriberEmail");
+                    this.OnuserIdChanged();
+                }
+            }
+        }
+
+        public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
 		

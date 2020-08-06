@@ -3,13 +3,32 @@
 }
 <h2>Welcome to ILearn</h2>
 
-<body  background="~/Image/onlineschool.jpg" >
+<body background="~/Image/onlineschool.jpg">
 </body>
 
 
+@{
+
+    RegistrationAndLogin.Models.UserDBContext db = new RegistrationAndLogin.Models.UserDBContext();
+    string emailID = User.Identity.Name;
+
+    var authenticatedUser = new RegistrationAndLogin.Models.User();
+    try
+    {
+        authenticatedUser = (from e in db.Users
+                             where e.EmailID == emailID
+                             select e).Single();
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine("User exited");
+    }
+
+}
+
 @if (Request.IsAuthenticated)
 {
-    <p>Welcome @HttpContext.Current.User.Identity.Name</p>
+    <p>Welcome @authenticatedUser.FirstName @authenticatedUser.LastName</p>
     using (Html.BeginForm("Logout", "User", FormMethod.Post, new { id = "logoutForm" }))
     {
         <a href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
@@ -18,7 +37,7 @@
 else
 {
     <div>
-    @Html.ActionLink("Register Now", "Registration", "User")
+        @Html.ActionLink("Register Now", "Registration", "User")
     </div>
-    <p>@Html.ActionLink("Login", "Login","User")</p>
+    <p>@Html.ActionLink("Login", "Login", "User")</p>
 }

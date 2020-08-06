@@ -7,6 +7,7 @@ using RegistrationAndLogin.Models;
 using System.Net.Mail;
 using System.Net;
 using System.Web.Security;
+using System.Diagnostics;
 
 namespace RegistrationAndLogin.Controllers
 {
@@ -24,6 +25,123 @@ namespace RegistrationAndLogin.Controllers
                         select e;
             return View(users);
         }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult ListOfEvents(int id)
+        {
+            var events = new SampleDataContext().Events.Where(r => r.userId == id && r.status == "AVAILABLE");
+
+            return View(events);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Subscribe(int? eventId, string email, string returnUrl) // eventID - id of the event to which user with email wants to subscribe.  // Done by the student
+        {
+            System.Diagnostics.Debug.WriteLine("EventId: " + eventId);
+            System.Diagnostics.Debug.WriteLine("SubscriberEmail: " + email);
+            System.Diagnostics.Debug.WriteLine("ReturnUrl: " + returnUrl);
+
+            // For saving the changed event
+            using (SampleDataContext sContext  = new SampleDataContext())
+            {
+                var targetEvent = (from e in sContext.Events
+                                   where e.id == eventId
+                                   select e).Single();
+                targetEvent.status = "PENDING";
+                targetEvent.subscriberEmail = email;
+
+                sContext.SubmitChanges();
+            }
+                
+            return Redirect(returnUrl);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult AcceptSubscription(int? eventId, string returnUrl) // Done by the tutor
+        {
+            System.Diagnostics.Debug.WriteLine("EventId: " + eventId);
+            System.Diagnostics.Debug.WriteLine("ReturnUrl: " + returnUrl);
+
+            using (SampleDataContext sContext = new SampleDataContext())
+            {
+                var targetEvent = (from e in sContext.Events
+                                   where e.id == eventId && e.status == "PENDING"
+                                   select e).Single();
+
+                targetEvent.status = "ACCEPTED";
+                sContext.SubmitChanges();
+            }
+                return Redirect(returnUrl);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult RejectSubscription(int? eventId, string returnUrl) //  // Done by the student
+        {
+            System.Diagnostics.Debug.WriteLine("EventId: " + eventId);
+            System.Diagnostics.Debug.WriteLine("ReturnUrl: " + returnUrl);
+
+            using (SampleDataContext sContext = new SampleDataContext())
+            {
+                var targetEvent = (from e in sContext.Events
+                                   where e.id == eventId && e.status == "PENDING"
+                                   select e).Single();
+
+                targetEvent.status = "AVAILABLE";
+                targetEvent.subscriberEmail = String.Empty;
+                sContext.SubmitChanges();
+            }
+            return Redirect(returnUrl);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult GetApplications()
+        {
+            List<Event> targetEvents = new List<Event>();
+            using (SampleDataContext context = new SampleDataContext())
+            {
+                 targetEvents = (from e in context.Events
+                                   where e.subscriberEmail == User.Identity.Name  && e.status == "ACCEPTED"
+                                   select e).ToList();
+            }
+                return View(targetEvents);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult GetTutorDashboard()
+        {
+            using (UserDBContext context = new UserDBContext())
+            {
+                var tutor = (from t in context.Users
+                             where t.EmailID == User.Identity.Name && t.Role == "Tutor"
+                             select t).Single();
+
+                // TODO
+                // Instantiate dashboard for the tutor
+                // Return it in View
+            }
+                return View();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult ListOfTutorEvents()
+        {
+            // Finding authenticated user
+            var user = db.Users.Where(u => u.EmailID == User.Identity.Name).Single();
+            // Getting UserID
+            int userID = user.UserID;
+            // Getting events which belong to the user with userId == userID
+            var events = new SampleDataContext().Events.Where(r => r.userId == userID && r.status == "PENDING");
+
+            return View(events);
+        }
+
 
         [HttpGet]
         [Authorize]
@@ -208,15 +326,6 @@ namespace RegistrationAndLogin.Controllers
             return View(user);
         }
 
-
-        [HttpGet]
-        [Authorize]
-        public ActionResult Schedule(int? id)
-        {
-            //TODO: Show the schedule of clicked tutor
-            return View();
-        }
-
         [HttpGet]
         [Authorize]
         public ActionResult GetDetails(int id)
@@ -229,6 +338,7 @@ namespace RegistrationAndLogin.Controllers
 
             return View(user);
         }
+
 
         //Login POST
         [HttpPost]
