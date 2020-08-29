@@ -90,7 +90,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Data.Linq">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -155,7 +157,10 @@
     <Content Include="Image\img_avatar.png" />
     <Content Include="Image\onlineschool.jpg" />
     <Content Include="Image\onlineschool_home.jpg" />
+    <Content Include="Image\reddot.png" />
     <Content Include="Image\region.jpg" />
+    <Content Include="js\coming-soon.js" />
+    <Content Include="js\coming-soon.min.js" />
     <Content Include="Models\MyModel.edmx.diagram">
       <DependentUpon>MyModel.edmx</DependentUpon>
     </Content>
@@ -468,6 +473,8 @@
     <Content Include="Views\User\ListOfTutorEvents.cshtml" />
     <Content Include="Views\User\GetApplications.cshtml" />
     <Content Include="Views\User\GetTutorDashboard.cshtml" />
+    <Content Include="Views\User\GetSchedule.cshtml" />
+    <Content Include="Views\User\GetTutorClasses.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

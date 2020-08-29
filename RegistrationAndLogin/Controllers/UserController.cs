@@ -113,6 +113,24 @@ namespace RegistrationAndLogin.Controllers
 
         [HttpGet]
         [Authorize]
+        public ActionResult GetTutorClasses()
+        {
+
+            List<Event> targetEvents = new List<Event>();
+            using (SampleDataContext context = new SampleDataContext())
+            {
+                var user = (from e in db.Users
+                            where e.EmailID == User.Identity.Name
+                            select e).Single();
+                targetEvents = (from e in context.Events
+                                where e.userId == user.UserID && e.start_date >= DateTime.Now && e.status == "ACCEPTED" 
+                                select e).ToList();
+            }
+            return View(targetEvents);
+        }
+
+        [HttpGet]
+        [Authorize]
         public ActionResult GetTutorDashboard()
         {
             using (UserDBContext context = new UserDBContext())
@@ -325,6 +343,14 @@ namespace RegistrationAndLogin.Controllers
 
             return View(user);
         }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult GetSchedule()
+        {
+            return View();
+        }
+
 
         [HttpGet]
         [Authorize]

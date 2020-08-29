@@ -13,6 +13,10 @@ namespace RegistrationAndLogin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("MyProfile", "User");
+            }
             return View();
         }
 

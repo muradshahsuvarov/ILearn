@@ -1,0 +1,542 @@
+﻿@model IEnumerable<RegistrationAndLogin.Models.Event>
+
+@{
+    ViewBag.Title = "Classes";
+}
+
+@{
+
+    RegistrationAndLogin.Models.UserDBContext db = new RegistrationAndLogin.Models.UserDBContext();
+
+}
+
+<style>
+    body {
+        width: 70%;
+        margin: 100px auto;
+        background-color: lightgray;
+        font-family: 'Kanit', sans-serif;
+    }
+
+    .calendar-base {
+        width: 900px;
+        height: 500px;
+        border-radius: 20px;
+        background-color: white;
+        position: relative;
+        z-index: 0;
+        color: black;
+    }
+
+    .year {
+        color: #E8E8E8;
+        font-size: 30px;
+        float: right;
+        position: relative;
+        right: 75px;
+        top: 20px;
+        font-weight: bold;
+    }
+
+    .triangle-left {
+        width: 0;
+        height: 0;
+        border-top: 5px solid transparent;
+        border-right: 10px solid #E8E8E8;
+        border-bottom: 5px solid transparent;
+        float: right;
+        position: relative;
+        right: 90px;
+        top: 36px;
+    }
+
+    .triangle-right {
+        width: 0;
+        height: 0;
+        border-top: 5px solid transparent;
+        border-left: 10px solid #E8E8E8;
+        border-bottom: 5px solid transparent;
+        float: right;
+        position: relative;
+        left: 20px;
+        top: 36px;
+    }
+
+    .triangle-left:hover {
+        border-right: 10px solid#2ECC71;
+    }
+
+    .triangle-right:hover {
+        border-left: 10px solid#2ECC71;
+    }
+
+    .month-color {
+        color: #27AE60;
+    }
+
+    .month-hover:hover {
+        color: #27e879 !important;
+    }
+
+    .months {
+        color: #AAAAAA;
+        position: relative;
+        left: 350px;
+        top: 90px;
+        word-spacing: 10px;
+    }
+
+    .month-line {
+        border-color: #E8E8E8;
+        position: relative;
+        top: 85px;
+        width: 57%;
+        left: 178px;
+    }
+
+    .days {
+        color: #AAAAAA;
+        position: relative;
+        font-size: 18px;
+        left: 355px;
+        top: 80px;
+        word-spacing: 35px;
+        font-weight: 600;
+    }
+
+    .num-dates {
+        float: right;
+        position: relative;
+        top: 110px;
+        right: 50px;
+        z-index: 1;
+    }
+
+    .first-week {
+        margin-bottom: 25px;
+        word-spacing: 55px;
+    }
+
+    .second-week {
+        margin-bottom: 25px;
+        word-spacing: 53px;
+    }
+
+    .third-week {
+        margin-bottom: 25px;
+        word-spacing: 58px;
+    }
+
+    .fourth-week {
+        margin-bottom: 25px;
+        word-spacing: 58px;
+    }
+
+    .fifth-week {
+        margin-bottom: 25px;
+        word-spacing: 56px;
+    }
+
+    .sixth-week {
+        margin-bottom: 25px;
+        word-spacing: 55px;
+    }
+
+    .active-day {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background-color: #2ECC71;
+        position: relative;
+        top: 278px;
+        left: 661px;
+    }
+
+    .white {
+        color: white;
+    }
+
+    .lawngreen {
+        color: lawngreen;
+    }
+
+    .event-indicator {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-color: #2980B9;
+        position: relative;
+        top: 290px;
+        left: 700px;
+    }
+
+    .two {
+        position: relative;
+        top: 168px;
+        left: 535px;
+    }
+
+    .grey {
+        color: #AAAAB1;
+    }
+
+    .calendar-left {
+        width: 300px;
+        height: 500px;
+        border-radius: 20px 0px 0px 20px;
+        background-color: #2ECC71;
+        position: relative;
+        z-index: 0;
+        bottom: 500px;
+        color: white;
+    }
+
+    .hamburger {
+        position: relative;
+        top: 25px;
+        left: 25px;
+    }
+
+        .burger-line:hover, .hamburger:hover {
+            background-color: #27e879 !important;
+        }
+
+    .burger-line {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        border-radius: 15%;
+        margin-bottom: 3px;
+    }
+
+    .num-date {
+        font-size: 150px;
+        width: 50%;
+        margin: 0 auto;
+        font-weight: 700;
+    }
+
+    .day {
+        width: 50%;
+        margin: 0px auto;
+        font-size: 30px;
+        position: relative;
+        bottom: 60px;
+    }
+
+    .current-events {
+        font-size: 15px;
+        position: relative;
+        margin-left: 25px;
+        bottom: 30px;
+    }
+
+    .posts {
+        text-decoration: underline dotted;
+    }
+
+        .posts:hover {
+            color: #27e879 !important;
+        }
+
+    .create-event {
+        font-size: 18px;
+        position: relative;
+        margin-top: 30px;
+        margin-left: 25px;
+    }
+
+    .event-line {
+        width: 90%;
+    }
+
+    .add-event {
+        width: 20px;
+        height: 20px;
+        padding: 0px;
+        border-radius: 50%;
+        border: solid white 2px;
+        position: relative;
+        bottom: 42px;
+        left: 260px;
+    }
+
+    .add {
+        font-size: 25px;
+        position: relative;
+        left: 1px;
+        bottom: 10px;
+    }
+
+        .add:hover, .create-event:hover, .add-event:hover {
+            color: #27e879 !important;
+            border-color: #27e879 !important;
+        }
+
+    /* The grid */
+    .day-of-week,
+    .date-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 7fr);
+    }
+
+        /* Positioning the first day on a Friday */
+        .date-grid button:first-child {
+            grid-column: 6;
+        }
+
+    div.ex1 {
+        background-color: lightblue;
+        width: 550px;
+        height: 350px;
+        overflow: scroll;
+    }
+
+    div.ex2 {
+        background-color: lightblue;
+        width: 110px;
+        height: 110px;
+        overflow: hidden;
+    }
+
+    div.ex3 {
+        background-color: white;
+        width: 550px;
+        height: 350px;
+        overflow: scroll;
+    }
+
+    div.ex4 {
+        background-color: lightblue;
+        width: 110px;
+        height: 110px;
+        overflow: visible;
+    }
+    }
+</style>
+<div class="container">
+
+    <div class="calendar-base">
+
+        <div class="year">@DateTime.Now.Year</div>
+        <!-- year -->
+
+        <div class="triangle-left"></div>
+        <!--triangle -->
+        <div class="triangle-right"></div>
+        <!--  triangle -->
+
+        <div class="months">
+            @{
+
+
+                if (DateTime.Now.Month == 1)
+                {
+                    <strong class="month-color">Jan</strong>
+                }
+                else
+                {
+                    <span class="month-hover">Jan</span>
+                }
+
+                if (DateTime.Now.Month == 2)
+                {
+                    <strong class="month-color">Feb</strong>
+                }
+                else
+                {
+                    <span class="month-hover">Feb</span>
+                }
+
+                if (DateTime.Now.Month == 3)
+                {
+                    <strong class="month-color">Mar</strong>
+                }
+                else
+                {
+                    <span class="month-hover">Mar</span>
+                }
+
+                if (DateTime.Now.Month == 4)
+                {
+                    <strong class="month-color">Apr</strong>
+                }
+                else
+                {
+                    <span class="month-hover">Apr</span>
+                }
+
+                if (DateTime.Now.Month == 5)
+                {
+                    <strong class="month-hover">May</strong>
+                }
+                else
+                {
+                    <span class="month-hover">May</span>
+                }
+
+                if (DateTime.Now.Month == 6)
+                {
+                    <strong class="month-color">Jun</strong>
+                }
+                else
+                {
+                    <span class="month-hover">Jun</span>
+                }
+
+                if (DateTime.Now.Month == 7)
+                {
+                    <strong class="month-color">Jul</strong>
+                }
+                else
+                {
+                    <span class="month-hover">Jul</span>
+                }
+
+                if (DateTime.Now.Month == 8)
+                {
+                    <strong class="month-color">Aug</strong>
+                }
+                else
+                {
+                    <span class="month-hover">Aug</span>
+                }
+
+                if (DateTime.Now.Month == 9)
+                {
+                    <strong class="month-color">Sep</strong>
+                }
+                else
+                {
+                    <span class="month-hover">Sep</span>
+                }
+
+                if (DateTime.Now.Month == 10)
+                {
+                    <strong class="month-color">Oct</strong>
+                }
+                else
+                {
+                    <span class="month-hover">Oct</span>
+                }
+
+                if (DateTime.Now.Month == 11)
+                {
+                    <strong class="month-color">Nov</strong>
+                }
+                else
+                {
+                    <span class="month-hover">Nov</span>
+                }
+
+                if (DateTime.Now.Month == 12)
+                {
+                    <strong class="month-color">Dec</strong>
+                }
+                else
+                {
+                    <span class="month-hover">Dec</span>
+                }
+
+            }
+        </div><!-- months -->
+        <hr class="month-line" />
+        <div class="container" style="width:100%">
+            <h2>.</h2>
+            <div class="list-group" style="margin-left:300px">
+                @{
+
+                    var user = new RegistrationAndLogin.Models.User();
+
+                    user = (from e in db.Users
+                            where e.EmailID == User.Identity.Name
+                            select e).Single();
+
+                    var events = new RegistrationAndLogin.Models.SampleDataContext().Events.Where(r => r.userId == user.UserID && r.status == "ACCEPTED").ToList();
+                    if (events.Count == 0)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"{user.UserID} - NULLLLLLLLLLLLLll");
+                    }
+                    <div class="ex3">
+                        @{
+                            foreach (var item in events)
+                            {
+                                if (item.start_date >= DateTime.Now)
+                                {
+                                    var authorID = item.userId;
+                                    var author = (from e in db.Users
+                                                  where e.UserID == authorID
+                                                  select e).Single();
+                                    var authorFullName = $"{author.FirstName} {author.LastName}";
+                                    var authorEmailAddr = $"{author.EmailID}";
+                                    <a href="#" class="list-group-item list-group-item-action">Name: @item.text<br>Date:@item.start_date - @item.end_date<br>Author Name:@authorFullName<br>Author Email:@authorEmailAddr <img src="~/Image/img_avatar.png" class="w3-left w3-circle w3-margin-right" style="width:55px; position:relative; left:180px; margin-top:-65px;"></a>
+                                }
+
+                            }
+                        }
+                    </div>
+
+
+                }
+
+            </div>
+        </div>
+
+        <!-- num-dates -->
+        <!--<div class="event-indicator"></div>-->
+        <!-- event-indicator -->
+        <!--<div class="active-day"></div>-->
+        <!-- active-day -->
+        <!-- event-indicator -->
+
+    </div>
+    <!-- calendar-base -->
+    <div class="calendar-left">
+        <div class="hamburger" style="width:25px">
+            <div class="burger-line"></div>
+            <!-- burger-line -->
+            <div class="burger-line"></div>
+            <!-- burger-line -->
+            <div class="burger-line"></div>
+            <!-- burger-line -->
+        </div>
+        <!-- hamburger -->
+
+
+        <div class="num-date">@DateTime.Now.Day</div>
+        <!--num-date -->
+        <div class="day">@DateTime.Now.DayOfWeek</div>
+        <!--day -->
+        <div class="current-events">
+            Today's Classes
+            <br />
+            <ul>
+
+
+                @{
+                    var eventDays = new RegistrationAndLogin.Models.SampleDataContext().Events.Where(r => r.userId == user.UserID && r.status == "ACCEPTED").ToList();
+                    foreach (var item in eventDays)
+                    {
+                        if (item.start_date >= DateTime.Now && item.start_date.Day == DateTime.Now.Day)
+                        {
+                            <li>Subject: @item.text</li>
+                        }
+                    }
+                }
+
+
+            </ul>
+            <span class="posts">See post events</span>
+        </div>
+        <!--current-events -->
+        <!--<div class="create-event">Create an Event</div>-->
+        <!-- create-event -->
+        <!--<hr class="event-line" />-->
+        <!--<div class="add-event"><span class="add">+</span></div>-->
+        <!-- add-event -->
+
+    </div>
+    <!-- calendar-left -->
+
+</div>
+<!-- container -->

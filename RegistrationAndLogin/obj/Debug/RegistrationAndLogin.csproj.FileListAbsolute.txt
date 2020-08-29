@@ -392,6 +392,7 @@ C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\bin\Microsoft.AI.
 C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\bin\Microsoft.ApplicationInsights.dll
 C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\bin\System.Data.Linq.dll
 C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\bin\System.Web.Helpers.dll
 C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\bin\System.Web.Mvc.dll
 C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\bin\System.Web.Razor.dll
@@ -414,8 +415,8 @@ C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\bin\System.Web.We
 C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\bin\System.Web.Webpages.Razor.xml
 C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\bin\System.Web.Helpers.xml
 C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\bin\System.Web.Mvc.xml
-C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\obj\Debug\RegistrationAndLogin.csprojAssemblyReference.cache
 C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\obj\Debug\RegistrationAndLogin.csproj.CoreCompileInputs.cache
 C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\obj\Debug\RegistrationAndLogin.csproj.CopyComplete
 C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\obj\Debug\RegistrationAndLogin.dll
 C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\obj\Debug\RegistrationAndLogin.pdb
+C:\Users\Murad\Desktop\University\ILearn2\RegistrationAndLogin\obj\Debug\RegistrationAndLogin.csprojAssemblyReference.cache
