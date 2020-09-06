@@ -84,13 +84,16 @@ namespace RegistrationAndLogin.Models
 		
 		private string _text;
 		
-		private System.DateTime _start_date;
+		private System.DateTime? _start_date;
 		
-		private System.DateTime _end_date;
+		private System.DateTime? _end_date;
 		
 		private System.Nullable<int> _userId;
         private System.String _status;
         private System.String _subscriberEmail;
+        private System.String _description;
+        private System.String _themeColor;
+        private System.String _isFullDay;
 
     #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -100,9 +103,9 @@ namespace RegistrationAndLogin.Models
     partial void OnidChanged();
     partial void OntextChanging(string value);
     partial void OntextChanged();
-    partial void Onstart_dateChanging(System.DateTime value);
+    partial void Onstart_dateChanging(System.DateTime? value);
     partial void Onstart_dateChanged();
-    partial void Onend_dateChanging(System.DateTime value);
+    partial void Onend_dateChanging(System.DateTime? value);
     partial void Onend_dateChanged();
     partial void OnuserIdChanging(System.Nullable<int> value);
     partial void OnuserIdChanged();
@@ -154,7 +157,7 @@ namespace RegistrationAndLogin.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_start_date", DbType="DateTime NOT NULL")]
-		public System.DateTime start_date
+		public System.DateTime? start_date
 		{
 			get
 			{
@@ -174,7 +177,7 @@ namespace RegistrationAndLogin.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_end_date", DbType="DateTime NOT NULL")]
-		public System.DateTime end_date
+		public System.DateTime? end_date
 		{
 			get
 			{
@@ -248,6 +251,65 @@ namespace RegistrationAndLogin.Models
                     this.SendPropertyChanging();
                     this._subscriberEmail = value;
                     this.SendPropertyChanged("subscriberEmail");
+                    this.OnuserIdChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_description", DbType = "NVARCHAR(300)  NULL")]
+        public System.String Description
+        {
+            get
+            {
+                return this._description;
+            }
+            set
+            {
+                if ((this._description != value))
+                {
+                    this.OntextChanging(value);
+                    this.SendPropertyChanging();
+                    this._description = value;
+                    this.SendPropertyChanged("Description");
+                    this.OnuserIdChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_themeColor", DbType = "NVARCHAR(10)  NULL")]
+        public System.String ThemeColor
+        {
+            get
+            {
+                return this._themeColor;
+            }
+            set
+            {
+                if ((this._themeColor != value))
+                {
+                    this.OntextChanging(value);
+                    this.SendPropertyChanging();
+                    this._themeColor = value;
+                    this.SendPropertyChanged("ThemeColor");
+                    this.OnuserIdChanged();
+                }
+            }
+        }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_isFullDay", DbType = "bit  NULL")]
+        public System.String IsFullDay
+        {
+            get
+            {
+                return this._isFullDay;
+            }
+            set
+            {
+                if ((this._isFullDay != value))
+                {
+                    this.SendPropertyChanging();
+                    this._isFullDay = value;
+                    this.SendPropertyChanged("IsFullDay");
                     this.OnuserIdChanged();
                 }
             }

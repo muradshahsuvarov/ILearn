@@ -473,8 +473,9 @@
     <Content Include="Views\User\ListOfTutorEvents.cshtml" />
     <Content Include="Views\User\GetApplications.cshtml" />
     <Content Include="Views\User\GetTutorDashboard.cshtml" />
-    <Content Include="Views\User\GetSchedule.cshtml" />
+    <Content Include="Views\User\GetStudentSchedule.cshtml" />
     <Content Include="Views\User\GetTutorClasses.cshtml" />
+    <Content Include="Views\User\GetTutorSchedule.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

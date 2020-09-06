@@ -204,7 +204,7 @@ form.example::after {
                                     {
                                         <li>@Html.ActionLink("Subjects", "GetApplications", "User")</li>
                                         <li>@Html.ActionLink("Biography", "Services", "Home")</li>
-                                        <li>@Html.ActionLink("Manage Schedule", "GetSchedule", "User")</li>
+                                        <li>@Html.ActionLink("Manage Schedule", "GetStudentSchedule", "User")</li>
                                         <li>@Html.ActionLink("Activity Log", "GetStudentActivityLog", "User")</li>
                                         <li>@Html.ActionLink("Settings", "GetStudentSettings", "User")</li>
                                         <li>@Html.ActionLink("News Feed Preferences", "GetStudentNewsPrefs", "User")</li>
@@ -219,7 +219,7 @@ form.example::after {
                                     {
                                         <li>@Html.ActionLink("Classes", "GetTutorClasses", "User")</li>
                                         <li>@Html.ActionLink("Requests", "ListOfTutorEvents", "User")</li>
-                                        <li>@Html.ActionLink("Manage Schedule", "Index", "Calendar", new { id = authenticatedUser.UserID, notAuth = false }, null)</li>
+                                        <li>@Html.ActionLink("Manage Schedule", "GetTutorSchedule", "User", new { id = authenticatedUser.UserID, notAuth = false }, null)</li>
                                         <li>@Html.ActionLink("Dashboard", "GetTutorDashboard", "User")</li>
                                         <li>@Html.ActionLink("Settings", "GetTutorSettings", "User")</li>
                                         <li>@Html.ActionLink("News Feed Preferences", "GetTutorNewsPrefs", "User")</li>

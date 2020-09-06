@@ -344,13 +344,120 @@ namespace RegistrationAndLogin.Controllers
             return View(user);
         }
 
+
+
         [HttpGet]
         [Authorize]
-        public ActionResult GetSchedule()
+        public ActionResult GetStudentSchedule()
         {
             return View();
         }
 
+        [HttpGet]
+        [Authorize]
+        public ActionResult GetTutorSchedule()
+        {
+            return View();
+        }
+
+        // Get authenticated user
+        User getAuthenticatedUser()
+        {
+            string emailID = User.Identity.Name;
+
+            User authenticatedUser = (from e in db.Users
+                                      where e.EmailID == emailID
+                                      select e).Single();
+
+            return authenticatedUser;
+        }
+
+        public JsonResult GetEvents()
+        {
+            using (SampleDataContext dc = new SampleDataContext())
+            {
+                var events = (from e in dc.Events
+                              where e.userId == getAuthenticatedUser().UserID
+                              select e).ToList();
+
+                // To see the subjects assigned to the teacher
+                foreach (var item in events)
+                {
+                    Debug.WriteLine("LOG: " + item.text);
+                }
+
+                return new JsonResult { Data = events, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+        }
+
+        [HttpPost]
+        public JsonResult SaveEvent(Event e)
+        {
+            var status = false;
+            using (SampleDataContext dc = new SampleDataContext())
+            {
+                if (e.id > 0)
+                {
+                    //Update the event
+                    var v = dc.Events.Where(a => a.id == e.id).FirstOrDefault();
+                    if (v != null)
+                    {
+                        v.text = e.text;
+                        v.start_date = e.start_date;
+                        v.end_date = e.end_date;
+                        v.Description = e.Description;
+                        v.ThemeColor = e.ThemeColor;
+                        v.IsFullDay = e.IsFullDay;
+
+
+                        Debug.WriteLine("here 1");
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("here 2");
+
+                    e.userId = getAuthenticatedUser().UserID;
+                    if (e.IsFullDay == "true")
+                    {
+                        e.end_date = null;
+                    }
+                    e.status = "AVAILABLE";
+
+                    dc.Events.InsertOnSubmit(e);
+                }
+
+                
+                Debug.WriteLine($"Start: {e.start_date}");
+                Debug.WriteLine($"End: {e.end_date}");
+                Debug.WriteLine($"ThemeColor: {e.ThemeColor}");
+                Debug.WriteLine($"Description: {e.Description}");
+                Debug.WriteLine($"IsFullDay: {e.IsFullDay}");
+
+
+                dc.SubmitChanges();
+                status = true;
+
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+
+        [HttpPost]
+        public JsonResult DeleteEvent(int eventID)
+        {
+            var status = false;
+            using (SampleDataContext dc = new SampleDataContext())
+            {
+                var v = dc.Events.Where(a => a.id == eventID).FirstOrDefault();
+                if (v != null)
+                {
+                    dc.Events.DeleteOnSubmit(v);
+                    dc.SubmitChanges();
+                    status = true;
+                }
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
 
         [HttpGet]
         [Authorize]
